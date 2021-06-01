@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>elma-test</title>
 </head>
 <body>
+    <div class="wrapper">
     <header>
         <h1>elma-task-manager</h1>
     </header>
     <main>
-        <article>
+        <article class="major-field">
             <section class="dates">
-                <button class="arrow left">left</button>
-                <div class="dates__container">
-
+                <div class="dates__controles">
+                    <div class="dates__buttons">
+                        <button class="arrow left">to left</button>
+                        <button class="arrow right">to right</button>
+                    </div>
                 </div>
-                <button class="arrow right">right</button>
+                <div class="dates__container">
+                    
+                </div>
             </section>
             <section class="task-fields">
                 <div class="task-fields__item">
@@ -26,7 +33,7 @@
                         <p class="task-fields__name"></p>
                     </div>
                     <div class="task-fields__taskspace">
-
+                        
                     </div>
                 </div>
             </section>
@@ -34,18 +41,19 @@
         <aside class="backlog">
             <h2>Backlog</h2>
             <div class="backlog__card">
-                <p class="backlog__header"></p>
-                <p class="backlog__description"></p>
+                <p class="backlog__header">Task1</p>
+                <p class="backlog__description">Create task app</p>
             </div>
         </aside>
     </main>
     <footer>
-        <ul>
+        <ul class="footer-links">
             <li><a href="https://www.elma-bpm.ru/">elma</a></li>
             <li><a href="https://github.com/AlexBashorin">my github</a></li>
             <li><a href="https://t.me/Alex_bash">my telegram</a></li>
         </ul>
     </footer>
-    <script src="/index.js"></script>
+    </div>
+    <script src="./index.js"></script>
 </body>
 </html>
