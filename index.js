@@ -12,11 +12,12 @@ while(startDate < endDate) {
     startDate.setDate(startDate.getDate() + 1);
 }
 
-let cardBacklog = document.querySelector('.backlog__card');
-let taskFields = document.querySelector('.task-fields');
 
 
 //обработка перетаскивания карточки
+let cardBacklog = document.querySelector('.backlog__card');
+let taskFields = document.querySelector('.task-fields');
+
 let currentDroppable = null;
 cardBacklog.onmousedown = function(event) {
     let shiftX = event.clientX - cardBacklog.getBoundingClientRect().left;
@@ -74,3 +75,21 @@ function leaveDroppable(elem) {
 cardBacklog.ondragstart = function() {
     return false;
 };
+
+
+
+//USERS
+let usersData = JSON.parse(users, function(key, value) {
+    if(key == 'id') return Number;
+    return value;
+});
+
+//TASKS
+let tasksData = JSON.parse(tasks, function(key, value){
+    if(key == 'creationDate' || key == 'planStartDate' || key == 'planEndDate' || key == 'endDate') return new Date(value);
+    return value;
+});
+
+window.addEventListener("click", function() {
+    alert(tasksData[1].creationDate.getDate());
+})
