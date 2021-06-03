@@ -111,6 +111,10 @@ main {
     width: 100px;
     height: inherit;
     background-color: var(--accent-color);
+    display: flex;
+    justify-content: center;
+    font-size: 1.1em;
+    color: white;
 }
 .task-fields__taskspace {
     height: inherit;
