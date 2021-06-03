@@ -4,6 +4,7 @@ const datesWrapper = document.querySelector('.dates__wrapper');
 let startDate = new Date(2021-05-01);
 let endDate = new Date(2021-07-01);
 
+
 // let dateArray = [];
 // let dateItem = document.createElement('DIV');
 // datesWrapper.appendChild(dateItem.classList.add('dates__item'));
@@ -77,9 +78,9 @@ cardBacklog.ondragstart = function() {
 };
 
 
-
 //USERS
-let requestUsers = 'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users';
+// let requestUsers = 'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users';
+let requestUsers = './users.json';
 let requestU = new XMLHttpRequest();
 requestU.open('GET', requestUsers);
 requestU.responseType = 'json';
