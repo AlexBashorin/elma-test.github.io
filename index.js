@@ -79,8 +79,8 @@ cardBacklog.ondragstart = function() {
 
 
 //USERS
-// let requestUsers = 'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users';
-let requestUsers = './users.json';
+let requestUsers = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/users.json';
+// let requestUsers = './users.json';
 let requestU = new XMLHttpRequest();
 requestU.open('GET', requestUsers);
 requestU.responseType = 'json';
@@ -113,7 +113,7 @@ function placeUsers(jsonObj) {
 // });
 
 //TASKS
-let requestTasks = 'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/tasks';
+let requestTasks = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/tasks.json';
 let requestT = new XMLHttpRequest();
 requestT.open('GET', requestTasks);
 requestT.responseType = 'json';
