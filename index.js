@@ -26,6 +26,7 @@ cardBacklog.onmousedown = function(event) {
 
     cardBacklog.style.position = 'absolute';
     cardBacklog.style.zIndex = 1000;
+    cardBacklog.classList.add('wcard');
     taskFields.append(cardBacklog);
 
     moveAt(event.pageX, event.pageY);
@@ -79,38 +80,50 @@ cardBacklog.ondragstart = function() {
 
 
 //USERS
-let requestUsers = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/users.json';
+// let requestUsers = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/users.json';
 // let requestUsers = './users.json';
-let requestU = new XMLHttpRequest();
-requestU.open('GET', requestUsers);
-requestU.responseType = 'json';
-requestU.send();
+// let requestU = new XMLHttpRequest();
+// requestU.open('GET', requestUsers);
+// requestU.responseType = 'json';
+// requestU.send();
 
-requestU.onload = function() {
-    let users = requestU.response;
-    placeUsers(users);
-}
+// requestU.onload = function() {
+//     let users = requestU.response;
+//     placeUsers(users);
+// }
 
 const taskField = document.querySelector('.task-fields');
 let taskItem = document.createElement('DIV');
 taskItem.classList.add('task-fields__item');
 
-function placeUsers(jsonObj) {
-    let taskName = document.createElement('DIV');
-    taskName.classList.add('task-fields__namespace');
-    let paraName = document.createElement('P');
-    paraName.textContent = jsonObj['surname'] + jsonObj['firstName'];
+// function placeUsers(jsonObj) {
+//     let taskName = document.createElement('DIV');
+//     taskName.classList.add('task-fields__namespace');
+//     let paraName = document.createElement('P');
+//     paraName.textContent = jsonObj["surname"] + jsonObj["firstName"];
 
-    taskField.appendChild(taskItem);
-    taskItem.appendChild(taskName);
-    taskName.appendChild(paraName);
-}
+//     taskField.appendChild(taskItem);
+//     taskItem.appendChild(taskName);
+//     taskName.appendChild(paraName);
+// }
 
+fetch("./users.json")
+    .then(function(resp) {
+        return resp.json();
+    })
+    .then(function(users) {
+        let taskName = document.createElement('DIV');
+        taskName.classList.add('task-fields__namespace');
+        let paraName = document.createElement('P');
 
-// let usersData = JSON.parse(users, function(key, value) {
-//     if(key == 'id') return Number;
-//     return value;
-// });
+        users.forEach((e, index) => {
+            paraName.textContent = e.surname + ' ' + e.firstName;
+
+            taskField.appendChild(taskItem);
+            taskItem.appendChild(taskName);
+            taskName.appendChild(paraName);
+        })
+    })
 
 //TASKS
 let requestTasks = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/tasks.json';
