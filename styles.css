@@ -74,10 +74,18 @@ main {
     height: inherit;
 }
 .dates__item {
-    width: 14,28%;
-    height: inherit;
-    color: #333;
+    width: 100px;
+    /* width: 14,28%; */
+    height: 40px;
+    background-color: rgb(236, 236, 236);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dates__para {
     font-size: 1em;
+    color: #444;
+    text-align: center;
 }
 
 .arrow {

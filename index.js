@@ -7,22 +7,11 @@ let getDates = function(startDate, endDate) {
           return date;
         };
     while (currentDate <= endDate) {
-      dates.push(currentDate);
+      dates.push(currentDate.getDate() + '.' + currentDate.getMonth());
       currentDate = addDays.call(currentDate, 1);
     }
     return dates;
   };
-let datesWrapper = document.querySelector('.dates__wrapper');
-datesWrapper.classList.add('dates__wrapper');
-
-let dateItem = document.createElement('DIV');
-dateItem.classList.add('dates__item');
-
-let dates = getDates(new Date(2021-05-01), new Date(2021-06-30));
-dates.forEach(e => {
-    dateItem.textContent = e;
-    datesWrapper.appendChild(dateItem);
-})
 
 //USERS
 fetch("./users.json")
@@ -78,10 +67,17 @@ fetch("./tasks.json")
                 let dateItem = document.createElement('DIV');
                 dateItem.classList.add('dates__item');
 
-                let dates = getDates(new Date(2021-05-01), new Date(2021-06-30));
+                let paraDate = document.createElement('P');
+                paraDate.classList.add('dates__para');
+
+                let sdate = new Date(2021,05,01);
+                let edate = new Date(2021,06,30);
+
+                let dates = getDates(sdate, edate);
                 dates.forEach(e => {
-                    dateItem.textContent = e;
+                    paraDate.textContent = e;
                     datesWrapper.appendChild(dateItem);
+                    dateItem.appendChild(paraDate);
                 })
             }
         })
