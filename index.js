@@ -1,70 +1,148 @@
-const datesContainer = document.querySelector('.dates__container');
-const datesWrapper = document.querySelector('.dates__wrapper');
+let getDates = function(startDate, endDate) {
+    let dates = [],
+        currentDate = startDate,
+        addDays = function(days) {
+          let date = new Date(this.valueOf());
+          date.setDate(date.getDate() + days);
+          return date;
+        };
+    while (currentDate <= endDate) {
+      dates.push(currentDate);
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  };
+let datesWrapper = document.querySelector('.dates__wrapper');
+datesWrapper.classList.add('dates__wrapper');
 
-let startDate = new Date(2021-05-01);
-let endDate = new Date(2021-07-01);
+let dateItem = document.createElement('DIV');
+dateItem.classList.add('dates__item');
 
+let dates = getDates(new Date(2021-05-01), new Date(2021-06-30));
+dates.forEach(e => {
+    dateItem.textContent = e;
+    datesWrapper.appendChild(dateItem);
+})
 
-// let dateArray = [];
-// let dateItem = document.createElement('DIV');
-// datesWrapper.appendChild(dateItem.classList.add('dates__item'));
+//USERS
+fetch("./users.json")
+    .then(function(resp) {
+        return resp.json();
+    })
+    .then(function(users) {            
+        users.forEach(e => {
+            const taskField = document.querySelector('.task-fields');
+            let taskItem = document.createElement('DIV');
+            taskItem.classList.add('task-fields__item');
 
-// while(startDate < endDate) {
-//     startDate.setDate(startDate.getDate() + 1);
-// }
+            let taskName = document.createElement('DIV');
+            taskName.classList.add('task-fields__namespace');
+            let paraName = document.createElement('P');
 
+            let taskSpace = document.createElement('DIV');
+            taskSpace.classList.add('task-fields__taskspace');
+
+            paraName.textContent = e.surname + ' ' + e.firstName;
+            taskField.appendChild(taskItem);
+            taskItem.appendChild(taskName);
+            taskItem.appendChild(taskSpace);
+            taskName.appendChild(paraName);
+        })
+    })
+
+//TASKS
+fetch("./tasks.json")
+    .then(function(resp) {
+        return resp.json();
+    })
+    .then(function(tasks) {
+        tasks.forEach(e => {
+            if(e.executor === null) {
+                const backlog = document.querySelector('.backlog');
+
+                let backlogCard = document.createElement('DIV');
+                backlogCard.classList.add('backlog__card');
+
+                let subj = document.createElement('P')
+                subj.classList.add('backlog__header');
+
+                subj.textContent = e.subject;
+                backlog.appendChild(backlogCard);
+                backlogCard.appendChild(subj);
+
+                dropCards(backlogCard);
+            } else {
+                let datesWrapper = document.querySelector('.dates__wrapper');
+                datesWrapper.classList.add('dates__wrapper');
+
+                let dateItem = document.createElement('DIV');
+                dateItem.classList.add('dates__item');
+
+                let dates = getDates(new Date(2021-05-01), new Date(2021-06-30));
+                dates.forEach(e => {
+                    dateItem.textContent = e;
+                    datesWrapper.appendChild(dateItem);
+                })
+            }
+        })
+    })
 
 
 //обработка перетаскивания карточки
-let cardBacklog = document.querySelector('.backlog__card');
 let taskFields = document.querySelector('.task-fields');
 
-let currentDroppable = null;
-cardBacklog.onmousedown = function(event) {
-    let shiftX = event.clientX - cardBacklog.getBoundingClientRect().left;
-    let shiftY = event.clientY - cardBacklog.getBoundingClientRect().top;
+function dropCards(card) {
 
-    cardBacklog.style.position = 'absolute';
-    cardBacklog.style.zIndex = 1000;
-    cardBacklog.classList.add('wcard');
-    taskFields.append(cardBacklog);
-
-    moveAt(event.pageX, event.pageY);
-
-    function moveAt(pageX, pageY) {
-        cardBacklog.style.left = pageX - shiftX + 'px';
-        cardBacklog.style.top = pageY - shiftY + 'px';
-    };
-
-    function onMouseMove(event) {
+    let currentDroppable = null;
+    card.onmousedown = function(event) {
+        let shiftX = event.clientX - card.getBoundingClientRect().left;
+        let shiftY = event.clientY - card.getBoundingClientRect().top;
+    
+        card.style.position = 'absolute';
+        card.style.zIndex = 1000;
+        card.classList.add('wcard');
+        taskFields.append(card);
+    
         moveAt(event.pageX, event.pageY);
-
-        cardBacklog.hidden = true;
-        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-        cardBacklog.hidden = false;
-
-        if(!elemBelow) return;
-
-        let droppableBelow = elemBelow.closest('.droppable');
-        if(currentDroppable != droppableBelow) {
-            if(currentDroppable) {
-                leaveDroppable(currentDroppable);
+    
+        function moveAt(pageX, pageY) {
+            card.style.left = pageX - shiftX + 'px';
+            card.style.top = pageY - shiftY + 'px';
+        };
+    
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+    
+            card.hidden = true;
+            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+            card.hidden = false;
+    
+            if(!elemBelow) return;
+    
+            let droppableBelow = elemBelow.closest('.droppable');
+            if(currentDroppable != droppableBelow) {
+                if(currentDroppable) {
+                    leaveDroppable(currentDroppable);
+                }
+                currentDroppable = droppableBelow;
+                if(currentDroppable) {
+                    enterDroppable(currentDroppable);
+                }
             }
-            currentDroppable = droppableBelow;
-            if(currentDroppable) {
-                enterDroppable(currentDroppable);
-            }
-        }
+        };
+    
+        document.addEventListener('mousemove', onMouseMove);
+    
+        card.onmouseup = function() {
+            document.removeEventListener('mousemove', onMouseMove);
+            card.onmouseup = null;
+        };
+    
     };
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    cardBacklog.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        cardBacklog.onmouseup = null;
+    card.ondragstart = function() {
+        return false;
     };
-
-};
+}
 
 function enterDroppable(elem) {
     
@@ -74,73 +152,6 @@ function leaveDroppable(elem) {
     
 }
 
-cardBacklog.ondragstart = function() {
-    return false;
-};
 
 
-//USERS
-// let requestUsers = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/users.json';
-// let requestUsers = './users.json';
-// let requestU = new XMLHttpRequest();
-// requestU.open('GET', requestUsers);
-// requestU.responseType = 'json';
-// requestU.send();
 
-// requestU.onload = function() {
-//     let users = requestU.response;
-//     placeUsers(users);
-// }
-
-const taskField = document.querySelector('.task-fields');
-let taskItem = document.createElement('DIV');
-taskItem.classList.add('task-fields__item');
-
-// function placeUsers(jsonObj) {
-//     let taskName = document.createElement('DIV');
-//     taskName.classList.add('task-fields__namespace');
-//     let paraName = document.createElement('P');
-//     paraName.textContent = jsonObj["surname"] + jsonObj["firstName"];
-
-//     taskField.appendChild(taskItem);
-//     taskItem.appendChild(taskName);
-//     taskName.appendChild(paraName);
-// }
-
-fetch("./users.json")
-    .then(function(resp) {
-        return resp.json();
-    })
-    .then(function(users) {
-        let taskName = document.createElement('DIV');
-        taskName.classList.add('task-fields__namespace');
-        let paraName = document.createElement('P');
-
-        users.forEach((e, index) => {
-            paraName.textContent = e.surname + ' ' + e.firstName;
-
-            taskField.appendChild(taskItem);
-            taskItem.appendChild(taskName);
-            taskName.appendChild(paraName);
-        })
-    })
-
-//TASKS
-let requestTasks = 'https://github.com/AlexBashorin/elma-test.github.io/blob/main/tasks.json';
-let requestT = new XMLHttpRequest();
-requestT.open('GET', requestTasks);
-requestT.responseType = 'json';
-requestT.send();
-
-requestT.onload = function() {
-    let tasks = requestT.response;
-    placeTasks(tasks);
-}
-
-function placeTasks() {
-    
-}
-// let tasksData = JSON.parse(tasks, function(key, value){
-//     if(key == 'creationDate' || key == 'planStartDate' || key == 'planEndDate' || key == 'endDate') return new Date(value);
-//     return value;
-// });

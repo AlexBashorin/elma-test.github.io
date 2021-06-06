@@ -49,7 +49,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
 }
 .dates__controles {
     height: 40px;
@@ -98,14 +98,17 @@ main {
 .task-fields {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     padding: 0 10px;
+    height: max-content;
 }
 .task-fields__item {
-    background-color: orangered;
+    margin-bottom: 4px;
     min-height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    position: relative;
 }
 .task-fields__namespace {
     width: 100px;
@@ -122,11 +125,13 @@ main {
     /* overflow-wrap: break-word; */
 }
 .custom-gap {
-    margin-top: inherit;
+    top: -60px;
 }
 .task-fields__taskspace {
+    width: 100%;
     height: inherit;
-    margin-left: 100px;
+    background-color: rgb(236, 236, 236);
+    /* margin-left: 100px; */
 }
 
 /* backlog */
