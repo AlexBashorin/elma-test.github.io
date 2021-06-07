@@ -7,11 +7,33 @@ let getDates = function(startDate, endDate) {
           return date;
         };
     while (currentDate <= endDate) {
-      dates.push(currentDate.getDate() + '.' + currentDate.getMonth());
+      dates.push('0' + currentDate.getMonth() + '-' + currentDate.getDate());
       currentDate = addDays.call(currentDate, 1);
     }
     return dates;
-  };
+};
+
+function writeDates() {
+    let datesWrapper = document.querySelector('.dates__wrapper');
+    datesWrapper.classList.add('dates__wrapper');
+    
+    let sdate = new Date(2021,05,01);
+    let edate = new Date(2021,06,30);
+    
+    let dates = getDates(sdate, edate);
+    dates.forEach(d => {
+        let dateItem = document.createElement('DIV');
+        dateItem.classList.add('dates__item');
+
+        let paraDate = document.createElement('P');
+        paraDate.classList.add('dates__para');
+
+        paraDate.textContent = d;
+        datesWrapper.appendChild(dateItem);
+        dateItem.appendChild(paraDate);
+    }) 
+}
+writeDates();
 
 //USERS
 fetch("./users.json")
@@ -61,28 +83,28 @@ fetch("./tasks.json")
 
                 dropCards(backlogCard);
             } else {
-                let datesWrapper = document.querySelector('.dates__wrapper');
-                datesWrapper.classList.add('dates__wrapper');
+                // JSON.parse(tasks, function(key, value) {
+                //     if(key === 'creationDate' || key === 'planStartDate' || key === 'planEndDate' || key === 'endDate') {
+                //         return new Date(value);
+                //     } 
+                //     return value.getMonth() + '-' + value.getDate();                        
+                // })
+                
+                let tspace = document.querySelector('.task-fields__taskspace');
 
-                let dateItem = document.createElement('DIV');
-                dateItem.classList.add('dates__item');
+                let task = document.createElement('DIV');
+                task.classList.add('task-fields__task');
 
-                let paraDate = document.createElement('P');
-                paraDate.classList.add('dates__para');
+                let paraTask = document.createElement('P');
+                paraTask.textContent = e.subject;
 
-                let sdate = new Date(2021,05,01);
-                let edate = new Date(2021,06,30);
+                tspace.appendChild(task);
+                task.appendChild(paraTask);
 
-                let dates = getDates(sdate, edate);
-                dates.forEach(e => {
-                    paraDate.textContent = e;
-                    datesWrapper.appendChild(dateItem);
-                    dateItem.appendChild(paraDate);
-                })
+                let dateItemPos = document.querySelector('.dates__item');     
             }
         })
     })
-
 
 //обработка перетаскивания карточки
 let taskFields = document.querySelector('.task-fields');
@@ -148,6 +170,25 @@ function leaveDroppable(elem) {
     
 }
 
+//SLIDER
+let toLeftBtn = document.querySelector('.left');
+let toRightBtn = document.querySelector('.right');
 
+// toLeftBtn.onclick = function() {
+//     let datesWrapper = document.querySelector('.dates__wrapper');
+//     datesWrapper.style = "position: relative; left: -1200px";
+// }
+// toRightBtn.onclick = function() {
+//     let datesWrapper = document.querySelector('.dates__wrapper');
+//     datesWrapper.style = "position: relative; right: 1200px";
+// }
+function sliderBtns() {
 
+}
+sliderBtns();
 
+toLeftBtn.onclick = function() {
+    let head = document.querySelector('header');
+    let coord = head.getBoundingClientRect();
+    alert(coord.bottom + pageYOffset);
+}

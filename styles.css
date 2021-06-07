@@ -64,23 +64,38 @@ main {
     justify-content: space-between;
 }
 .dates__container {
+    width: 1200px;
     height: 40px;
-    overflow: hidden;
     background-color: orange;
-    margin-left: 100px;
+    margin-left: 103px;
+    overflow: hidden;
 }
 .dates__wrapper {
     width: max-content;
     height: inherit;
+    display: flex;
+    flex-direction: row;
+
+    position: relative;
+    user-select: none;
+    touch-action: pan-y;
+}
+.dates__wrapper.grab {
+    cursor: grab;
+}
+.dates__wrapper.grabbing {
+    cursor: grabbing;
 }
 .dates__item {
     width: 100px;
     /* width: 14,28%; */
     height: 40px;
     background-color: rgb(236, 236, 236);
+    border-right: 1px solid rgb(196, 196, 196);
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 .dates__para {
     font-size: 1em;
@@ -140,6 +155,13 @@ main {
     height: inherit;
     background-color: rgb(236, 236, 236);
     /* margin-left: 100px; */
+}
+.task-fields__task {
+    width: 100px;
+    height: inherit;
+    background-color: var(--accent-color);
+    color: #333;
+    font-size: 1em;
 }
 
 /* backlog */
