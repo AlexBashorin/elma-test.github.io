@@ -69,6 +69,7 @@ fetch("./tasks.json")
     .then(function(tasks) {
         tasks.forEach(e => {
             if(e.executor === null) {
+                
                 const backlog = document.querySelector('.backlog');
 
                 let backlogCard = document.createElement('DIV');
@@ -76,20 +77,23 @@ fetch("./tasks.json")
 
                 let subj = document.createElement('P')
                 subj.classList.add('backlog__header');
+                let sdatecard = document.createElement('P');
+                sdatecard.classList.add('backlog__description');
 
                 subj.textContent = e.subject;
+                sdatecard.textContent = 'start date: ' + e.planStartDate;
                 backlog.appendChild(backlogCard);
                 backlogCard.appendChild(subj);
+                backlogCard.appendChild(sdatecard);
 
                 dropCards(backlogCard);
             } else {
-                // JSON.parse(tasks, function(key, value) {
-                //     if(key === 'creationDate' || key === 'planStartDate' || key === 'planEndDate' || key === 'endDate') {
-                //         return new Date(value);
-                //     } 
-                //     return value.getMonth() + '-' + value.getDate();                        
-                // })
-                
+                // String dateStr = obj.getString("creationDate");
+                // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // Date birthDate = sdf.parse(dateStr);
+                // //then
+                // user.setBirthdate(birthDate);
+
                 let tspace = document.querySelector('.task-fields__taskspace');
 
                 let task = document.createElement('DIV');
@@ -101,7 +105,11 @@ fetch("./tasks.json")
                 tspace.appendChild(task);
                 task.appendChild(paraTask);
 
+                let datesWrapper = document.querySelector('.dates__wrapper');
                 let dateItemPos = document.querySelector('.dates__item');     
+                let coord = dateItemPos.getBoundingClientRect();
+                alert(coord.left + pageYOffset);
+
             }
         })
     })
