@@ -106,12 +106,22 @@ fetch("./tasks.json")
                 task.appendChild(paraTask);
 
                 let datesWrapper = document.querySelector('.dates__wrapper');
-                let dateItemPos = document.querySelector('.dates__item');     
-                let coord = dateItemPos.getBoundingClientRect();
-                alert(coord.left + pageYOffset);
-
+                let dateItemPos = document.querySelector('.dates__item');
+                
+                // let coord = dateItemPos.getBoundingClientRect();
+                for(let i=0; i<datesWrapper.childNodes.length; i++) {
+                       let coo = datesWrapper.childNodes[i];
+                    //    alert(coo.offsetLeft);
+                    if(e.creationDate) {
+                        e.creationDate = new Date(e.creationDate);
+                    }
+                    if(e.creationDate == coo.textContent) {
+                        tspace.childNodes[0].offsetLeft = coo.offsetLeft;
+                    }
+                    }
+                }
             }
-        })
+        )
     })
 
 //обработка перетаскивания карточки
