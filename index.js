@@ -111,13 +111,17 @@ fetch("./tasks.json")
                 // let coord = dateItemPos.getBoundingClientRect();
                 for(let i=0; i<datesWrapper.childNodes.length; i++) {
                        let coo = datesWrapper.childNodes[i];
-                    //    alert(coo.offsetLeft);
+                       coo.offsetLeft;
                     if(e.creationDate) {
                         e.creationDate = new Date(e.creationDate);
+                        document.body.innerText = e.creationDate.getMonth() + '-' + e.creationDate.getDate();
                     }
-                    if(e.creationDate == coo.textContent) {
-                        tspace.childNodes[0].offsetLeft = coo.offsetLeft;
-                    }
+                    if(coo == '0' + e.creationDate.getMonth() + '-' + e.creationDate.getDate()) {
+                        document.body.innerText = task.offsetLeft;
+                    } 
+                    // if(e.creationDate == coo.textContent) {
+                    //     tspace.childNodes[0].offsetLeft = coo.offsetLeft;
+                    // }
                     }
                 }
             }
