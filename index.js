@@ -88,12 +88,6 @@ fetch("./tasks.json")
 
                 dropCards(backlogCard);
             } else {
-                // String dateStr = obj.getString("creationDate");
-                // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                // Date birthDate = sdf.parse(dateStr);
-                // //then
-                // user.setBirthdate(birthDate);
-
                 let tspace = document.querySelector('.task-fields__taskspace');
 
                 let task = document.createElement('DIV');
@@ -106,29 +100,27 @@ fetch("./tasks.json")
                 task.appendChild(paraTask);
 
                 let datesWrapper = document.querySelector('.dates__wrapper');
-                let dateItemPos = document.querySelector('.dates__item');
                 
-                // let coord = dateItemPos.getBoundingClientRect();
                 for(let i=0; i<datesWrapper.childNodes.length; i++) {
-                       let coo = datesWrapper.childNodes[i];
-                       coo.offsetLeft;
+                    //date item DIV
+                    let dateIt = datesWrapper.childNodes[i];
+                    //left coord of item
+                    dateIt.offsetLeft;
+                    //get paragraph in item
+                    let para = dateIt.firstChild;
                     if(e.creationDate) {
                         e.creationDate = new Date(e.creationDate);
-                        document.body.innerText = e.creationDate.getMonth() + '-' + e.creationDate.getDate();
                     }
-                    if(coo == '0' + e.creationDate.getMonth() + '-' + e.creationDate.getDate()) {
-                        document.body.innerText = task.offsetLeft;
-                    } 
-                    // if(e.creationDate == coo.textContent) {
-                    //     tspace.childNodes[0].offsetLeft = coo.offsetLeft;
-                    // }
+                    if(e.creationDate === para) {
+                        alert('ok')
+                    }
                     }
                 }
             }
         )
     })
 
-//обработка перетаскивания карточки
+//DRUG CARD 
 let taskFields = document.querySelector('.task-fields');
 
 function dropCards(card) {
