@@ -88,40 +88,51 @@ fetch("./tasks.json")
 
                 dropCards(backlogCard);
             } else {
-                let tspace = document.querySelector('.task-fields__taskspace');
-
-                let task = document.createElement('DIV');
-                task.classList.add('task-fields__task');
-
-                let paraTask = document.createElement('P');
-                paraTask.textContent = e.subject;
-
-                tspace.appendChild(task);
-                task.appendChild(paraTask);
-
                 let datesWrapper = document.querySelector('.dates__wrapper');
                 
-                for(let i=0; i<datesWrapper.childNodes.length; i++) {
-                    //date item DIV
-                    let dateIt = datesWrapper.childNodes[i];
-                    //left coord of item
-                    dateIt.offsetLeft;
-                    //get paragraph in item
-                    let para = dateIt.firstChild;
+                for(let ditem of datesWrapper.childNodes) {
                     if(e.creationDate) {
                         e.creationDate = new Date(e.creationDate);
                     }
-                    if(e.creationDate === para) {
-                        alert('ok')
+
+                    let task = document.createElement('DIV');
+                    task.classList.add('task-fields__task');
+                    let paraTask = document.createElement('P');
+                    paraTask.textContent = e.subject;
+                    
+                    let format = '0' + (e.creationDate.getMonth() + 1) + '-' + e.creationDate.getDate();
+                    let spaces = document.getElementsByClassName('task-fields__taskspace');
+                    for(let i=0; i<spaces.length - 1; i++) {
+                        if(format === ditem.textContent && spaces[i].hasChildNodes() === false) {
+                            spaces[i].appendChild(task);
+                            task.appendChild(paraTask);
+    
+                            let c = ditem.getBoundingClientRect();
+                            task.style = "position: absolute;";
+                            task.style.left = (c.left - 10) + "px";
+                        } 
                     }
-                    }
+                }
                 }
             }
         )
     })
 
+    //GET SELECTED TEXT
+    window.addEventListener("keydown", function(event) {
+        if(event.ctrlKey && event.code == "Enter") {
+
+            if (window.getSelection()) {
+                let select = window.getSelection();
+                alert(select.toString());
+            }
+        }
+    })
+    
+
 //DRUG CARD 
 let taskFields = document.querySelector('.task-fields');
+let taskSpaces = document.getElementsByClassName('task-fields__taskspace');
 
 function dropCards(card) {
 
@@ -177,7 +188,10 @@ function dropCards(card) {
 }
 
 function enterDroppable(elem) {
-    
+    let taskSpaces = document.getElementsByClassName('task-fields__taskspace');
+    if(elem) {
+        
+    }
 }
 
 function leaveDroppable(elem) {
