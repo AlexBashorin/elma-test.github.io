@@ -155,6 +155,7 @@ main {
     width: 100%;
     height: inherit;
     background-color: rgb(236, 236, 236);
+    overflow: hidden;
     /* margin-left: 100px; */
 }
 .task-fields__task {
@@ -202,8 +203,14 @@ h2 {
 .backlog__card:hover {
     box-shadow: 0 0 12px rgb(173, 173, 173);
 }
+.invisible {
+    display: none;
+}
 .wcard {
     width: 200px;
+    height: inherit;
+    background-color: var(--accent-color);
+    cursor: pointer;
 }
 .backlog__header {
     font-weight: 700;

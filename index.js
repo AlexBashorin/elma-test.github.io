@@ -81,7 +81,7 @@ fetch("./tasks.json")
                 sdatecard.classList.add('backlog__description');
 
                 subj.textContent = e.subject;
-                sdatecard.textContent = 'start date: ' + e.planStartDate;
+                sdatecard.textContent = 'start date: ' + e.creationDate;
                 backlog.appendChild(backlogCard);
                 backlogCard.appendChild(subj);
                 backlogCard.appendChild(sdatecard);
@@ -102,10 +102,12 @@ fetch("./tasks.json")
                     
                     let format = '0' + (e.creationDate.getMonth() + 1) + '-' + e.creationDate.getDate();
                     let spaces = document.getElementsByClassName('task-fields__taskspace');
-                    for(let i=0; i<spaces.length - 1; i++) {
+                    for(let i=0; i<spaces.length; i++) {
                         if(format === ditem.textContent && spaces[i].hasChildNodes() === false) {
                             spaces[i].appendChild(task);
                             task.appendChild(paraTask);
+
+                            spaces[i].classList.add('droppable');
     
                             let c = ditem.getBoundingClientRect();
                             task.style = "position: absolute;";
@@ -118,16 +120,15 @@ fetch("./tasks.json")
         )
     })
 
-    //GET SELECTED TEXT
-    window.addEventListener("keydown", function(event) {
-        if(event.ctrlKey && event.code == "Enter") {
-
-            if (window.getSelection()) {
-                let select = window.getSelection();
-                alert(select.toString());
-            }
-        }
-    })
+//GET SELECTED TEXT
+window.addEventListener("keydown", function(event) {
+  if(event.ctrlKey && event.code == "Enter") {
+    if (window.getSelection()) {
+      let select = window.getSelection();
+      alert(select.toString());
+    }
+  }
+});
     
 
 //DRUG CARD 
@@ -144,7 +145,7 @@ function dropCards(card) {
         card.style.position = 'absolute';
         card.style.zIndex = 1000;
         card.classList.add('wcard');
-        taskFields.append(card);
+        // taskFields.append(card);
     
         moveAt(event.pageX, event.pageY);
     
@@ -170,53 +171,121 @@ function dropCards(card) {
                 currentDroppable = droppableBelow;
                 if(currentDroppable) {
                     enterDroppable(currentDroppable);
+
+                    card.onmouseup = function() {
+                        document.removeEventListener('mousemove', onMouseMove);
+
+                        let spaces = document.getElementsByClassName('task-fields__taskspace');
+
+baskCard.addEventListener('dragstart', dragStart);
+baskCard.addEventListener('dragend', dragEnd);
+
+for(let space of spaces) {
+    space.addEventListener('dragover', dragOver);
+    space.addEventListener('dragenter', dragEnter);
+    space.addEventListener('dragleave', dragLeave);
+    space.addEventListener('drop', dragDrop);
+}
+
+
+function dragStart() {
+  setTimeout(() => this.className = 'invisible', 0);
+}
+
+function dragEnd() {
+  this.className = 'backlog__card';
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+function dragEnter(e) {
+  e.preventDefault();
+}
+function dragLeave() {
+  this.className = 'task-fields__taskspace';
+}
+function dragDrop() {
+  this.className = 'task-fields__taskspace';
+  this.append(baskCard);
+}
+                        let datesWrapper = document.querySelector('.dates__wrapper');
+                        for(let ditem of datesWrapper.childNodes) {
+                            let c = ditem.getBoundingClientRect();
+                            card.style = "position: absolute;";
+                            card.style.left = (c.left - 10) + "px";
+                        }
+                        card.onmouseup = null;
+                    };
                 }
             }
         };
     
         document.addEventListener('mousemove', onMouseMove);
     
-        card.onmouseup = function() {
-            document.removeEventListener('mousemove', onMouseMove);
-            card.onmouseup = null;
-        };
     
     };
-    card.ondragstart = function() {
-        return false;
-    };
+    
 }
-
 function enterDroppable(elem) {
-    let taskSpaces = document.getElementsByClassName('task-fields__taskspace');
-    if(elem) {
-        
-    }
+  elem.style.background = 'var(--main-hover-color)';
 }
-
 function leaveDroppable(elem) {
-    
+  elem.style.background = '';
 }
+card.ondragstart = function() {
+  return false;
+};
+
+
+// const baskCard = document.querySelector('backlog__card');
+// let spaces = document.getElementsByClassName('task-fields__taskspace');
+
+// baskCard.addEventListener('dragstart', dragStart);
+// baskCard.addEventListener('dragend', dragEnd);
+
+// for(let space of spaces) {
+//     space.addEventListener('dragover', dragOver);
+//     space.addEventListener('dragenter', dragEnter);
+//     space.addEventListener('dragleave', dragLeave);
+//     space.addEventListener('drop', dragDrop);
+// }
+
+
+// function dragStart() {
+//   setTimeout(() => this.className = 'invisible', 0);
+// }
+
+// function dragEnd() {
+//   this.className = 'backlog__card';
+// }
+
+// function dragOver(e) {
+//   e.preventDefault();
+// }
+// function dragEnter(e) {
+//   e.preventDefault();
+// }
+// function dragLeave() {
+//   this.className = 'task-fields__taskspace';
+// }
+// function dragDrop() {
+//   this.className = 'task-fields__taskspace';
+//   this.append(baskCard);
+// }
 
 //SLIDER
 let toLeftBtn = document.querySelector('.left');
 let toRightBtn = document.querySelector('.right');
 
-// toLeftBtn.onclick = function() {
-//     let datesWrapper = document.querySelector('.dates__wrapper');
-//     datesWrapper.style = "position: relative; left: -1200px";
-// }
-// toRightBtn.onclick = function() {
-//     let datesWrapper = document.querySelector('.dates__wrapper');
-//     datesWrapper.style = "position: relative; right: 1200px";
-// }
+
 function sliderBtns() {
 
 }
 sliderBtns();
 
 toLeftBtn.onclick = function() {
-    let head = document.querySelector('header');
-    let coord = head.getBoundingClientRect();
-    alert(coord.bottom + pageYOffset);
+  let head = document.querySelector('header');
+  let coord = head.getBoundingClientRect();
+  alert(coord.bottom + pageYOffset);
 }

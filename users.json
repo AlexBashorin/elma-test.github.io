@@ -33,5 +33,12 @@
         "surname":"Некрасов",
         "firstName":"Артём",
         "secondName":""
+    },
+    {
+        "id":6,
+        "username":"user6",
+        "surname":"John",
+        "firstName":"Doe",
+        "secondName":""
     }
 ]
